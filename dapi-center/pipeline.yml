@@ -1,0 +1,27 @@
+version: '1.1'
+
+stages:
+  - stage:
+      - git-checkout:
+
+  - stage:
+      - buildpack:
+          params:
+            context: ${git-checkout}
+            modules:
+              - name: dd
+                path: .
+
+  - stage:
+      - release:
+          params:
+            dice_yml: ${git-checkout}/dice.yml
+            replacement_images:
+              - ${buildpack}/pack-result
+            # init_sql: ${git-checkout}/db
+            release_files: ${git-checkout}/dice.yml
+
+  - stage:
+      - dice:
+          params:
+            release_id_path: ${release}

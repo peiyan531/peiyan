@@ -1,0 +1,25 @@
+version: "2.0"
+services:
+  dd:
+    ports:
+      - 7082
+    resources:
+      cpu: 0.5
+      mem: 512
+    deployments:
+      replicas: 1
+    health_check:
+      http:
+        port: 7082
+        path: "/base/health"
+        duration: 30
+    expose:
+      - 7082
+#addons:
+#  dapi-mysql:
+#    plan: "mysql:basic"
+#    options:
+#      version: "5.7.23"
+#      create_dbs: db_dapi
+      # init_sql: ''
+envs: {}
